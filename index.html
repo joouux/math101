@@ -49,10 +49,10 @@
             width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(6, 189, 213, 0.6);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b82f6;
+            background: #010917;
             border-radius: 4px;
         }
     </style>
@@ -67,8 +67,8 @@
                     <i class="fa-solid fa-calculator"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">MTAH101 Calculus</h1>
-                    <p class="text-xs text-slate-400">بوابة المادة والسكاشن التعليمية</p>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">Math 101 </h1>
+                    
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                 </button>
                 <button id="auth-btn" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium text-sm transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-blue-500/25">
                     <i class="fa-solid fa-user-shield"></i>
-                    <span>دخول الأدمن</span>
+                    <span>Admin </span>
                 </button>
             </div>
         </div>
@@ -103,11 +103,11 @@
         <nav class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
             <button id="tab-lectures-btn" onclick="switchTab('lectures')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-lg shadow-blue-600/30">
                 <i class="fa-solid fa-video"></i>
-                المحاضرات والسكاشن
+                المحاضرات 
             </button>
             <button id="tab-materials-btn" onclick="switchTab('materials')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-file-pdf"></i>
-                الملخصات والملفات
+                ملخصات السكاشن
             </button>
             <button id="tab-ai-btn" onclick="switchTab('ai')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
@@ -133,6 +133,10 @@
                     <button onclick="setFilterWeek('2')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 2</button>
                     <button onclick="setFilterWeek('3')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 3</button>
                     <button onclick="setFilterWeek('4')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 4</button>
+                    <button onclick="setFilterWeek('5')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 5</button>
+                    <button onclick="setFilterWeek('6')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 6</button>
+                    <button onclick="setFilterWeek('7')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 7</button>
+                    <button onclick="setFilterWeek('8')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 8</button>
                 </div>
             </div>
 
@@ -208,6 +212,14 @@
                             <option value="2">الأسبوع 2</option>
                             <option value="3">الأسبوع 3</option>
                             <option value="4">الأسبوع 4</option>
+                            <option value="5">الأسبوع 5</option>
+                            <option value="6">الأسبوع 6</option>
+                            <option value="7">الأسبوع 7</option>
+                            <option value="8">الأسبوع 8</option>
+                            <option value="9">الأسبوع 9</option>
+                            <option value="10">الأسبوع 10</option>
+                            <option value="11">الأسبوع 11</option>
+                            <option value="12">الأسبوع 12</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2 space-y-1">
