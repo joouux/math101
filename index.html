@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة MTAH101 - تفاضل وتكامل (Calculus)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20 text-white font-bold text-2xl">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">MTAH101 Calculus</h1>
+                    <p class="text-xs text-slate-400">بوابة المادة والسكاشن التعليمية</p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center gap-3">
+                <button id="admin-badge" class="hidden px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 rounded-lg text-xs font-semibold flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    أدمن مفعّل
+                </button>
+                <button id="auth-btn" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium text-sm transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-blue-500/25">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>دخول الأدمن</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Welcome Hero Section -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-blue-900/40 p-8 sm:p-10 shadow-2xl">
+            <div class="relative z-10 max-w-2xl space-y-4">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 inline-block">مادة التفاضل والتكامل 1</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">مرحباً بكم في منصة MTAH101 التعليمية</h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    منصتكم الشاملة لمتابعة كافة محاضرات التفاضل والتكامل، تنزيل الملخصات، واستخدام المساعد الذكي لحل المسائل الرياضية خطوة بخطوة.
+                </p>
+            </div>
+        </section>
+
+        <!-- Dynamic Navigation Tabs -->
+        <nav class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
+            <button id="tab-lectures-btn" onclick="switchTab('lectures')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-lg shadow-blue-600/30">
+                <i class="fa-solid fa-video"></i>
+                المحاضرات والسكاشن
+            </button>
+            <button id="tab-materials-btn" onclick="switchTab('materials')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-file-pdf"></i>
+                الملخصات والملفات
+            </button>
+            <button id="tab-ai-btn" onclick="switchTab('ai')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+                مساعد الماث الذكي
+            </button>
+            <button id="tab-admin-btn" onclick="switchTab('admin')" class="hidden px-5 py-2.5 rounded-xl text-sm font-semibold transition-all items-center gap-2 text-purple-400 hover:text-purple-300 bg-purple-950/40 border border-purple-800/50">
+                <i class="fa-solid fa-sliders"></i>
+                لوحة التحكم (Admin)
+            </button>
+        </nav>
+
+        <!-- Tab 1: Lectures & Video Content -->
+        <section id="tab-lectures" class="space-y-6">
+            <!-- Search & Filters Bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card p-4 rounded-2xl">
+                <div class="relative w-full sm:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="lecture-search" oninput="filterLectures()" placeholder="ابحث برقم الأسبوع أو عنوان الدرس..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl pr-10 pl-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors">
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
+                    <button onclick="setFilterWeek('all')" class="week-filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white">الكل</button>
+                    <button onclick="setFilterWeek('1')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 1</button>
+                    <button onclick="setFilterWeek('2')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 2</button>
+                    <button onclick="setFilterWeek('3')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 3</button>
+                    <button onclick="setFilterWeek('4')" class="week-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700">الأسبوع 4</button>
+                </div>
+            </div>
+
+            <!-- Lectures Grid -->
+            <div id="lectures-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic Content Loaded Here -->
+            </div>
+        </section>
+
+        <!-- Tab 2: Summaries & Downloads -->
+        <section id="tab-materials" class="hidden space-y-6">
+            <div id="materials-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic Content Loaded Here -->
+            </div>
+        </section>
+
+        <!-- Tab 3: Gemini AI Math Assistant -->
+        <section id="tab-ai" class="hidden glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                        <i class="fa-solid fa-robot text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">المساعد الذكي لتفاضل وتكامل 1</h3>
+                        <p class="text-xs text-slate-400">اكتب أي سؤال أو مسألة رياضية وسيقوم بالشرح بالتفصيل</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Output Window -->
+            <div id="chat-messages" class="h-96 overflow-y-auto space-y-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 custom-scrollbar">
+                <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl max-w-2xl space-y-2">
+                    <p class="text-xs text-blue-400 font-semibold">مساعد الماث</p>
+                    <p class="text-sm text-slate-200">أهلاً بك! أنا مساعدك الذكي لمادة التفاضل والتكامل MTAH101. كيف يمكنني مساعدتك في شرح النظريات أو حل المسائل اليوم؟</p>
+                </div>
+            </div>
+
+            <!-- Chat Input Box -->
+            <div class="flex items-center gap-3">
+                <textarea id="chat-input" rows="2" placeholder="اكتب مسألتك هنا... (مثال: احسب derivative of f(x) = x^3 + sin(x))" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                <button id="send-btn" onclick="sendAiQuery()" class="h-12 px-6 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>إرسال</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Tab 4: Admin Management Panel -->
+        <section id="tab-admin" class="hidden space-y-8">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 border border-purple-500/30">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                            <i class="fa-solid fa-plus text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">إضافة محاضرة جديدة</h3>
+                            <p class="text-xs text-slate-400">ستظهر هذه المحاضرة فوراً للطلاب في المنصة</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="add-lecture-form" onsubmit="handleAddLecture(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">عنوان السكشن/المحاضرة</label>
+                        <input type="text" id="lec-title" required placeholder="مثال: Limits and Continuity" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-purple-500 outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">رقم الأسبوع</label>
+                        <select id="lec-week" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-purple-500 outline-none">
+                            <option value="1">الأسبوع 1</option>
+                            <option value="2">الأسبوع 2</option>
+                            <option value="3">الأسبوع 3</option>
+                            <option value="4">الأسبوع 4</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">رابط فيديو YouTube</label>
+                        <input type="url" id="lec-url" required placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-purple-500 outline-none">
+                    </div>
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">الوصف والملخص المختصر</label>
+                        <textarea id="lec-desc" rows="2" placeholder="اكتب تفاصيل عن المحاضرة..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-purple-500 outline-none resize-none"></textarea>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button type="submit" class="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded-xl transition-all shadow-md text-sm">
+                            حفظ ونشر المحاضرة
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Add Material Form -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 space-y-6 border border-indigo-500/30">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+                            <i class="fa-solid fa-file-circle-plus text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">إضافة ملخص أو ملف PDF</h3>
+                            <p class="text-xs text-slate-400">ارفع رابط ملف الشرح أو ملخص السكشن</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="add-material-form" onsubmit="handleAddMaterial(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">عنوان الملف</label>
+                        <input type="text" id="mat-title" required placeholder="مثال: ملخص القوانين والاشتقاق" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-indigo-500 outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">نوع الملف</label>
+                        <select id="mat-type" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-indigo-500 outline-none">
+                            <option value="PDF">ملف PDF</option>
+                            <option value="Doc">مستند Doc</option>
+                            <option value="Link">رابط خارجي</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2 space-y-1">
+                        <label class="text-xs text-slate-300 font-medium">رابط التنزيل (Download / Drive Link)</label>
+                        <input type="url" id="mat-url" required placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-indigo-500 outline-none">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-all shadow-md text-sm">
+                            حفظ ونشر الملف
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full rounded-3xl p-6 sm:p-8 space-y-6 relative border border-slate-700">
+            <button onclick="toggleModal(false)" class="absolute top-4 left-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center mx-auto text-blue-400 text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">تسجيل دخول الأدمن</h3>
+                <p class="text-xs text-slate-400">سجل الدخول لإدارة محاضرات وملفات منصة الماث</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-300 font-medium">البريد الإلكتروني للأدمن</label>
+                    <input type="email" id="login-email" required placeholder="admin@mtah101.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-blue-500 outline-none">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-300 font-medium">كلمة السر</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:border-blue-500 outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-600/30 text-sm">
+                    تسجيل الدخول
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Imports and Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, addDoc, deleteDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+       // Firebase Credentials Configuration
+        const appId = 'math101-portal';
+        const firebaseConfig = {
+          apiKey: "AIzaSyA6i_Rr7nXeLQ15B-QW3dB7LAiSss81if4",
+          authDomain: "math101-portal.firebaseapp.com",
+          projectId: "math101-portal",
+          storageBucket: "math101-portal.firebasestorage.app",
+          messagingSenderId: "767768069017",
+          appId: "1:767768069017:web:c0112847ae7455d6218908",
+          measurementId: "G-RZPK8YVWR6"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let isAdmin = false;
+
+        // State Data
+        let lecturesData = [
+            {
+                id: 'demo-1',
+                title: 'مقدمة في النهايات واستمرار الدوال (Limits & Continuity)',
+                week: '1',
+                url: 'https://www.youtube.com/watch?v=riXcZT2ICjA',
+                desc: 'شرح مفهوم النهاية من الرسم والتطبيق المباشر وقواعد الاستمرار.'
+            },
+            {
+                id: 'demo-2',
+                title: 'قواعد الاشتقاق الأساسية (Derivatives Rules)',
+                week: '2',
+                url: 'https://www.youtube.com/watch?v=S0_qX4VJhMQ',
+                desc: 'شرح اشتقاق الدوال المثلثية ودوال الأسس واللوغاريتمات.'
+            }
+        ];
+
+        let materialsData = [
+            {
+                id: 'mat-1',
+                title: 'ملخص قوانين النهايات والاشتقاق الكامل',
+                type: 'PDF',
+                url: '#'
+            }
+        ];
+
+        let activeWeekFilter = 'all';
+
+        // Initialize Authentication
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.warn('Auth fallback:', err);
+            }
+        }
+
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !user.isAnonymous) {
+                isAdmin = true;
+                document.getElementById('admin-badge').classList.remove('hidden');
+                document.getElementById('admin-badge').classList.add('flex');
+                document.getElementById('tab-admin-btn').classList.remove('hidden');
+                document.getElementById('tab-admin-btn').classList.add('flex');
+                document.getElementById('auth-btn').querySelector('span').innerText = 'تسجيل الخروج';
+            } else {
+                isAdmin = false;
+                document.getElementById('admin-badge').classList.add('hidden');
+                document.getElementById('admin-badge').classList.remove('flex');
+                document.getElementById('tab-admin-btn').classList.add('hidden');
+                document.getElementById('tab-admin-btn').classList.remove('flex');
+                document.getElementById('auth-btn').querySelector('span').innerText = 'دخول الأدمن';
+            }
+            subscribeToPublicData();
+        });
+
+        // Realtime Data Firestore Listener
+        function subscribeToPublicData() {
+            if (!currentUser) return;
+            
+            const lecturesCol = collection(db, 'artifacts', appId, 'public', 'data', 'lectures');
+            onSnapshot(lecturesCol, (snapshot) => {
+                const fetched = [];
+                snapshot.forEach((docSnap) => {
+                    fetched.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                if (fetched.length > 0) {
+                    lecturesData = fetched;
+                }
+                renderLectures();
+            }, (err) => console.log('Firestore fetch error, using fallback local data'));
+
+            const materialsCol = collection(db, 'artifacts', appId, 'public', 'data', 'materials');
+            onSnapshot(materialsCol, (snapshot) => {
+                const fetchedMat = [];
+                snapshot.forEach((docSnap) => {
+                    fetchedMat.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                if (fetchedMat.length > 0) {
+                    materialsData = fetchedMat;
+                }
+                renderMaterials();
+            }, (err) => console.log('Materials fetch error'));
+        }
+
+        // Global Handlers
+        window.switchTab = function(tabName) {
+            ['lectures', 'materials', 'ai', 'admin'].forEach(t => {
+                const sec = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`tab-${t}-btn`);
+                if (sec) sec.classList.add('hidden');
+                if (btn) {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            const targetSec = document.getElementById(`tab-${tabName}`);
+            const targetBtn = document.getElementById(`tab-${tabName}-btn`);
+            if (targetSec) targetSec.classList.remove('hidden');
+            if (targetBtn) {
+                targetBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg');
+                targetBtn.classList.remove('text-slate-400');
+            }
+        };
+
+        window.toggleModal = function(show) {
+            const modal = document.getElementById('login-modal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        };
+
+        document.getElementById('auth-btn').addEventListener('click', () => {
+            if (isAdmin) {
+                signOut(auth);
+                switchTab('lectures');
+            } else {
+                toggleModal(true);
+            }
+        });
+
+        window.handleLogin = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                // Attempt Real Auth
+                await signInWithEmailAndPassword(auth, email, password);
+                toggleModal(false);
+            } catch (err) {
+                // Fallback demo for testing admin panel
+                if (email === 'admin@mtah101.com' && password === 'admin123') {
+                    isAdmin = true;
+                    document.getElementById('admin-badge').classList.remove('hidden');
+                    document.getElementById('admin-badge').classList.add('flex');
+                    document.getElementById('tab-admin-btn').classList.remove('hidden');
+                    document.getElementById('tab-admin-btn').classList.add('flex');
+                    document.getElementById('auth-btn').querySelector('span').innerText = 'تسجيل الخروج';
+                    toggleModal(false);
+                    switchTab('admin');
+                } else {
+                    alert('بيانات الدخول غير صحيحة. (استخدم admin@mtah101.com / admin123 للوضع التجريبي)');
+                }
+            }
+        };
+
+        // Render Lectures
+        function renderLectures() {
+            const container = document.getElementById('lectures-container');
+            const searchVal = document.getElementById('lecture-search').value.toLowerCase();
+
+            const filtered = lecturesData.filter(item => {
+                const matchWeek = activeWeekFilter === 'all' || item.week === activeWeekFilter;
+                const matchSearch = item.title.toLowerCase().includes(searchVal) || (item.desc && item.desc.toLowerCase().includes(searchVal));
+                return matchWeek && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400">لا توجد محاضرات حالياً تجاري هذا البحث</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all">
+                    <div class="p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">الأسبوع ${item.week}</span>
+                            ${isAdmin ? `<button onclick="deleteLecture('${item.id}')" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-500/10 rounded-md"><i class="fa-solid fa-trash"></i> حذف</button>` : ''}
+                        </div>
+                        <h4 class="font-bold text-base text-white leading-snug">${item.title}</h4>
+                        <p class="text-xs text-slate-400 line-clamp-2">${item.desc || 'لا يوجد وصف متاح'}</p>
+                    </div>
+                    <div class="p-4 border-t border-slate-800/80 bg-slate-900/40">
+                        <a href="${item.url}" target="_blank" class="w-full py-2 px-4 bg-slate-800 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-solid fa-play"></i> مشاهدة المحاضرة
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Materials
+        function renderMaterials() {
+            const container = document.getElementById('materials-container');
+            if (materialsData.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400">لا توجد ملفات حالياً</div>`;
+                return;
+            }
+
+            container.innerHTML = materialsData.map(item => `
+                <div class="glass-card rounded-2xl p-5 border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 font-bold text-sm">
+                            ${item.type || 'PDF'}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">${item.title}</h4>
+                            <p class="text-xs text-slate-400">ملف جاهز للتنزيل المباشر</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        ${isAdmin ? `<button onclick="deleteMaterial('${item.id}')" class="text-red-400 text-xs p-2 hover:bg-slate-800 rounded-lg"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        <a href="${item.url}" target="_blank" class="p-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Admin Actions
+        window.handleAddLecture = async function(e) {
+            e.preventDefault();
+            const newLec = {
+                title: document.getElementById('lec-title').value,
+                week: document.getElementById('lec-week').value,
+                url: document.getElementById('lec-url').value,
+                desc: document.getElementById('lec-desc').value,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                if (currentUser) {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'lectures'), newLec);
+                } else {
+                    lecturesData.unshift({ id: Date.now().toString(), ...newLec });
+                    renderLectures();
+                }
+                document.getElementById('add-lecture-form').reset();
+                alert('تمت إضافة المحاضرة بنجاح!');
+                switchTab('lectures');
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.deleteLecture = async function(id) {
+            if (!confirm('هل أنت تأكد من حذف هذه المحاضرة؟')) return;
+            try {
+                if (currentUser) {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'lectures', id));
+                }
+                lecturesData = lecturesData.filter(i => i.id !== id);
+                renderLectures();
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.handleAddMaterial = async function(e) {
+            e.preventDefault();
+            const newMat = {
+                title: document.getElementById('mat-title').value,
+                type: document.getElementById('mat-type').value,
+                url: document.getElementById('mat-url').value,
+            };
+
+            try {
+                if (currentUser) {
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'materials'), newMat);
+                } else {
+                    materialsData.unshift({ id: Date.now().toString(), ...newMat });
+                    renderMaterials();
+                }
+                document.getElementById('add-material-form').reset();
+                alert('تم رفع الملف بنجاح!');
+                switchTab('materials');
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.deleteMaterial = async function(id) {
+            if (!confirm('هل تريد حذف الملف؟')) return;
+            try {
+                if (currentUser) {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'materials', id));
+                }
+                materialsData = materialsData.filter(i => i.id !== id);
+                renderMaterials();
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.filterLectures = function() {
+            renderLectures();
+        };
+
+        window.setFilterWeek = function(week) {
+            activeWeekFilter = week;
+            document.querySelectorAll('.week-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.add('bg-blue-600', 'text-white');
+            renderLectures();
+        };
+
+        // Gemini AI Integration
+        window.sendAiQuery = async function() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatContainer = document.getElementById('chat-messages');
+            
+            // Append User Message
+            chatContainer.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-blue-600 text-white p-4 rounded-2xl max-w-xl text-sm">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Loading Indicator
+            const loadingId = 'loading-' + Date.now();
+            chatContainer.innerHTML += `
+                <div id="${loadingId}" class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl max-w-2xl space-y-2">
+                    <p class="text-xs text-amber-400 font-semibold">جاري التفكير وحل المسألة...</p>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        systemInstruction: {
+                            parts: [{ text: "أنت مدرس ومعلم خبير لمادة MTAH101 التفاضل والتكامل (Calculus 1). اشرح الخطوات بأسلوب تعليمي مبسط ومفهوم مع استخدام الصيغ الرياضية المناسبة." }]
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                const replyText = result.candidates?.[0]?.content?.parts?.[0]?.text || "عذراً، لم أستطع فهم المسألة بالكامل.";
+
+                document.getElementById(loadingId).remove();
+                chatContainer.innerHTML += `
+                    <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl max-w-2xl space-y-2">
+                        <p class="text-xs text-amber-400 font-semibold">مساعد الماث</p>
+                        <div class="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">${replyText}</div>
+                    </div>
+                `;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+                chatContainer.innerHTML += `
+                    <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-2xl max-w-2xl text-xs text-red-400">
+                        حدث خطأ أثناء الاتصال بالمساعد الذكي.
+                    </div>
+                `;
+            }
+        };
+
+        // Initial Render
+        renderLectures();
+        renderMaterials();
+    </script>
+</body>
+</html>
